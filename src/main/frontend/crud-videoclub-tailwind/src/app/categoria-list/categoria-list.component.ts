@@ -4,7 +4,6 @@ import { CategoriaService } from '../service/categoria.service';
 import { Router } from '@angular/router';
 import {DatePipe} from '@angular/common';
 
-
 @Component({
   selector: 'app-categoria-list',
   imports: [DatePipe],
@@ -27,11 +26,11 @@ goToCreate() {
   this.router.navigate(['/crear']);
 }
 
-edit(id: number) {
+edit(id: string) {
   this.router.navigate(['/editar', id]);
 }
 
-delete(id: number) {
+delete(id: string) {
   if (confirm('¿Quieres borrar esta categoria?')) {
     this.categoriaService.delete(id).subscribe(() => {
       this.categorias = this.categorias.filter((cat) => cat.id !== id);

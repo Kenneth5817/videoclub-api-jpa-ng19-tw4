@@ -18,7 +18,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 export class CategoriaFormComponent {
   categoriaForm: FormGroup;
   isEdit = false;
-  categoriaId: number | null = null;
+  categoriaId: string | null = null;
 
   // Inyeccion de Dependencia
   cd = inject(ChangeDetectorRef);
@@ -30,6 +30,7 @@ export class CategoriaFormComponent {
   constructor() {
     this.categoriaForm = this.fb.group({
       nombre: ['', Validators.required],
+      ultimaActualizacion: [''],
     });
   }
 
@@ -38,11 +39,12 @@ export class CategoriaFormComponent {
       const id = params.get('id');
       if (id) {
         this.isEdit = true;
-        this.categoriaId = +id;
+        this.categoriaId = id;
         this.categoriaService.get(this.categoriaId).subscribe((data) => {
           this.categoriaForm.patchValue(data);
         });
       } else {
+        //para forzar re-renderizado en base al data-bound
         this.cd.detectChanges();
       }
     });

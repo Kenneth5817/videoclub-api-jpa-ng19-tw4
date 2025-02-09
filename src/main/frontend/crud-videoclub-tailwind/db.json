@@ -1,19 +1,9 @@
 {
   "categorias": [
     {
-      "id": 1,
-      "nombre": "Terror",
-      "ultimaActualizacion": "2025-01-01 13:30:50"
-    },
-    {
-      "id": 2,
-      "nombre": "Terror",
-      "ultimaActualizacion": "2025-01-02 14:30:50"
-    },
-    {
-      "id": 3,
-      "nombre": "Terror",
-      "ultimaActualizacion": "2025-01-03 8:30:50"
+      "nombre": "Horror",
+      "ultimaActualizacion": "2025-02-09 06:15:49",
+      "id": "1"
     }
   ]
 }

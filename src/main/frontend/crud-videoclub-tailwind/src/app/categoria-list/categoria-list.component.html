@@ -9,20 +9,20 @@
   @if (categorias.length > 0) {
     <table class="table-auto w-full">
       <thead>
-      <tr>
-        <th class="px-4 py-2">Id</th>
-        <th class="px-4 py-2">Nombre</th>
-        <th class="px-4 py-2">Última actualización</th>
-        <th class="px-4 py-2">Acciones</th>
+      <tr class="border-b-2">
+        <th class="text-left px-4 py-2">Id</th>
+        <th class="text-left px-4 py-2">Nombre</th>
+        <th class="text-left px-4 py-2">Última actualización</th>
+        <th class="text-left px-4 py-2">Acciones</th>
       </tr>
       </thead>
       <tbody>
         @for (categoria of categorias; track categoria.id) {
           <tr>
-            <td class="border px-4 py-2">{{ categoria.id }}</td>
-            <td class="border px-4 py-2">{{ categoria.nombre }}</td>
-            <td class="border px-4 py-2">{{ categoria.ultimaActualizacion | date: 'dd/MM/yyyy HH:mm:ss' }}</td>
-            <td class="border px-4 py-2">
+            <td class="px-4 py-2">{{ categoria.id }}</td>
+            <td class="px-4 py-2">{{ categoria.nombre }}</td>
+            <td class="px-4 py-2">{{ categoria.ultimaActualizacion | date: 'dd/MM/yyyy HH:mm:ss' }}</td>
+            <td class="px-4 py-2">
               <button
                 (click)="edit(categoria.id)"
                 class="bg-blue-500 text-white p-2 rounded-md hover:bg-blue-700 mr-2"

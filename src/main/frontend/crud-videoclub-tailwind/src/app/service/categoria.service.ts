@@ -25,7 +25,7 @@ export class CategoriaService {
     return this.getAll().pipe(
       map((categorias) => {
         const maxId = categorias.reduce((max, cat) => Math.max(max, Number(cat.id)), 0);
-        categoria.id = '' + maxId +1;
+        categoria.id = '' + (maxId +1);
         categoria.ultimaActualizacion = this.datePipe.transform(Date.now(),'yyyy-MM-dd hh:mm:ss')!;
         return categoria;
       }),

@@ -1,0 +1,26 @@
+#Para crear
+nvm ls-remote
+nvm install --lts
+nvm ls
+
+npm install -g @angular/cli
+ng new --defaults --standalone --routing crud-videoclub-tailwind
+cd crud-videoclub-tailwind
+npm install tailwindcss @tailwindcss/cli
+>>>>input.css
+        @import "tailwindcss";
+<<<<
+npm install -g json-server
+ng generate service service/categoria --skip-tests
+ng generate component categoria-list --skip-tests
+ng generate component categoria-create --skip-tests
+
+npx @tailwindcss/cli -i ./src/input.css -o ./src/styles.css --watch
+
+#Para lanzar la aplicacion
+#cd src/main/frontend/crud-videoclub-tailwind
+#npm install -g @angular/cli
+#npm install
+#npm start
+#ng serve
+

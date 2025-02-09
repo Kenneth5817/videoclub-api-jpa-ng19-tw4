@@ -1,0 +1,19 @@
+{
+  "categorias": [
+    {
+      "id": 1,
+      "nombre": "Terror",
+      "ultimaActualizacion": "2025-01-01 13:30:50"
+    },
+    {
+      "id": 2,
+      "nombre": "Terror",
+      "ultimaActualizacion": "2025-01-02 14:30:50"
+    },
+    {
+      "id": 3,
+      "nombre": "Terror",
+      "ultimaActualizacion": "2025-01-03 8:30:50"
+    }
+  ]
+}

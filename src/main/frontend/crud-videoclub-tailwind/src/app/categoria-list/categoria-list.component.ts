@@ -23,11 +23,11 @@ ngOnInit() {
 }
 
 goToCreate() {
-  this.router.navigate(['/crear']);
+  this.router.navigate(['/categorias/crear']);
 }
 
 edit(id: string) {
-  this.router.navigate(['/editar', id]);
+  this.router.navigate(['/categorias/editar', id]);
 }
 
 delete(id: string) {

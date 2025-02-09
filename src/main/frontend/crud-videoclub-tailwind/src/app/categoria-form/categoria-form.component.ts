@@ -58,14 +58,14 @@ export class CategoriaFormComponent {
       this.categoriaService
         .update(this.categoriaId, this.categoriaForm.value)
         .subscribe(() => {
-          this.router.navigate(['/']);
+          this.router.navigate(['/categorias']);
         });
     } else {
       // Crear Categoria
       this.categoriaService
         .create(this.categoriaForm.value)
         .subscribe(() => {
-          this.router.navigate(['/']);
+          this.router.navigate(['/categorias']);
         });
     }
   }

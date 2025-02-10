@@ -7,9 +7,10 @@ import {
 } from '@angular/forms';
 import { CategoriaService } from '../service/categoria.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import {PeliculaService} from '../service/pelicula.service';
 
 @Component({
-  selector: 'app-categoria-form',
+  selector: 'app-pelicula-form',
   imports: [ReactiveFormsModule],
   templateUrl: './pelicula-form.component.html',
   styleUrl: './pelicula-form.component.css',
@@ -23,12 +24,12 @@ export class PeliculaFormComponent {
   // Inyeccion de Dependencia
   cd = inject(ChangeDetectorRef);
   fb = inject(FormBuilder);
-  categoriaService = inject(CategoriaService);
+  peliculaService = inject(PeliculaService);
   router = inject(Router);
   route = inject(ActivatedRoute);
 
   constructor() {
-    this.categoriaForm = this.fb.group({
+    this.peliculaForm = this.fb.group({
       nombre: ['', Validators.required],
       ultimaActualizacion: [''],
     });
@@ -39,9 +40,9 @@ export class PeliculaFormComponent {
       const id = params.get('id');
       if (id) {
         this.isEdit = true;
-        this.categoriaId = id;
-        this.categoriaService.get(this.categoriaId).subscribe((data) => {
-          this.categoriaForm.patchValue(data);
+        this.idPelicula = id;
+        this.peliculaService.get(this.idPelicula).subscribe((data) => {
+          this.peliculaForm.patchValue(data);
         });
       } else {
         //para forzar re-renderizado en base al data-bound
@@ -51,21 +52,21 @@ export class PeliculaFormComponent {
   }
 
   onSubmit() {
-    if (this.categoriaForm.invalid) return;
+    if (this.peliculaForm.invalid) return;
 
-    if (this.isEdit && this.categoriaId) {
+    if (this.isEdit && this.idPelicula) {
       // Editar Categoria
-      this.categoriaService
-        .update(this.categoriaId, this.categoriaForm.value)
+      this.peliculaService
+        .update(this.idPelicula, this.peliculaForm.value)
         .subscribe(() => {
-          this.router.navigate(['/categorias']);
+          this.router.navigate(['/peliculas']);
         });
     } else {
       // Crear Categoria
-      this.categoriaService
-        .create(this.categoriaForm.value)
+      this.peliculaService
+        .create(this.peliculaForm.value)
         .subscribe(() => {
-          this.router.navigate(['/categorias']);
+          this.router.navigate(['/peliculas']);
         });
     }
   }

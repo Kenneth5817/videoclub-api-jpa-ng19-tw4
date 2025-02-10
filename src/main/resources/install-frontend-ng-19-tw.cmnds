@@ -12,7 +12,6 @@ npm install tailwindcss @tailwindcss/cli
 <<<<
 npm install -g json-server
 ng generate service service/categoria --skip-tests
-ng generate component categoria-list --skip-tests
 ng generate component categoria-create --skip-tests
 
 npx @tailwindcss/cli -i ./src/input.css -o ./src/styles.css --watch

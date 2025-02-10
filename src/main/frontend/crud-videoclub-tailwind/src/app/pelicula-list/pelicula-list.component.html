@@ -1,0 +1,46 @@
+<div class="container mx-auto">
+  <h1 class="text-2xl font-bold mb-4">Categorías</h1>
+  <button
+    (click)="goToCreate()"
+    class="bg-blue-500 text-white p-2 rounded-md hover:bg-blue-700 mb-4"
+  >
+    Añadir Categoría
+  </button>
+  @if (categorias.length > 0) {
+    <table class="table-auto w-full">
+      <thead>
+      <tr class="border-b-2">
+        <th class="text-left px-4 py-2">Id</th>
+        <th class="text-left px-4 py-2">Nombre</th>
+        <th class="text-left px-4 py-2">Última actualización</th>
+        <th class="text-left px-4 py-2">Acciones</th>
+      </tr>
+      </thead>
+      <tbody>
+        @for (categoria of categorias; track categoria.id) {
+          <tr>
+            <td class="px-4 py-2">{{ categoria.id }}</td>
+            <td class="px-4 py-2">{{ categoria.nombre }}</td>
+            <td class="px-4 py-2">{{ categoria.ultimaActualizacion | date: 'dd/MM/yyyy HH:mm:ss' }}</td>
+            <td class="px-4 py-2">
+              <button
+                (click)="edit(categoria.id)"
+                class="bg-blue-500 text-white p-2 rounded-md hover:bg-blue-700 mr-2"
+              >
+                Editar
+              </button>
+              <button
+                (click)="delete(categoria.id)"
+                class="bg-red-500 text-white p-2 rounded-md hover:bg-red-700"
+              >
+                Borrar
+              </button>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  } @else {
+    <p>Ninguna categoría encontrada.</p>
+  }
+</div>

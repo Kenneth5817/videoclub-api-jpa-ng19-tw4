@@ -10,5 +10,12 @@
       "nombre": "sdfasdfa",
       "ultimaActualizacion": "2025-02-09 10:22:43"
     }
+  ],
+"peliculas":[
+    {
+    "nombre": "Comedia",
+    "titulo": "Indiana Jones",
+    "descripcion": "Gran Pelicula"
+    }
   ]
 }

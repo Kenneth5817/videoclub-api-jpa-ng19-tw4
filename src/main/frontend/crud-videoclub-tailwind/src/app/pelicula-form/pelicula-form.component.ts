@@ -17,7 +17,7 @@ import {PeliculaService} from '../service/pelicula.service';
   standalone: true
 })
 export class PeliculaFormComponent {
-  categoriaForm: FormGroup;
+  peliculaForm: FormGroup;
   isEdit = false;
   categoriaId: string | null = null;
 

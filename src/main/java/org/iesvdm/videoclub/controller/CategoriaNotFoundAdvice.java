@@ -1,5 +1,6 @@
 package org.iesvdm.videoclub.controller;
 
+import org.iesvdm.videoclub.exception.CategoriaNotFoundException;
 import org.iesvdm.videoclub.exception.PeliculaNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;

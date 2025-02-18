@@ -10,6 +10,7 @@ import org.hibernate.annotations.OnDelete;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -28,6 +29,8 @@ public class Pelicula {
     private long idPelicula;
     private String titulo;
     private String descripcion;
+
+
     @Column(name = "anyo_lanzamiento")
     @JsonFormat(pattern = "yyyy",  shape = JsonFormat.Shape.STRING)
     private Date anyoLanzamiento;
@@ -63,6 +66,15 @@ public class Pelicula {
 
     @Column(name = "ultima_actualizacion")
     @JsonFormat(pattern = "yyyy-MM-dd-HH:mm:ss",  shape = JsonFormat.Shape.STRING)
-    private Date ultimaActualizacion;
+    private LocalDateTime ultimaActualizacion;
 
+
+    @OneToMany (mappedBy = "Pelicula")
+    @Builder.Default
+    private Set<PeliculaCategoria> peliculaCategorias = new HashSet<>();
+
+    /**
+    @OneToMany (mappedBy = "Pelicula")
+    @Builder.Default
+    private Set<Actor>actores=new HashSet<>();**/
 }

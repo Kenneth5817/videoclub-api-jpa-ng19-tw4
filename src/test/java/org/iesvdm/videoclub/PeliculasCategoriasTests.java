@@ -5,10 +5,12 @@ import org.iesvdm.videoclub.domain.Idioma;
 import org.iesvdm.videoclub.domain.Pelicula;
 import org.iesvdm.videoclub.repository.CategoriaRepository;
 import org.iesvdm.videoclub.repository.IdiomaRepository;
+import org.iesvdm.videoclub.repository.PeliculaCategoriaRepository;
 import org.iesvdm.videoclub.repository.PeliculaRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.core.annotation.Order;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -17,6 +19,7 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -82,7 +85,7 @@ class VideoclubApplicationTests {
                 .replacementCost(BigDecimal.valueOf(9.99))
                 .clasificacion("PG-13")
                 .caracteristicasEspeciales("Ninguna")
-                .ultimaActualizacion(new Date())
+                .ultimaActualizacion(new LocalDateOf())
                 .build();
 
         // Añadir la categoría a la película
@@ -121,7 +124,7 @@ class VideoclubApplicationTests {
                 .replacementCost(BigDecimal.valueOf(9.99))
                 .clasificacion("PG-13")
                 .caracteristicasEspeciales("Ninguna")
-                .ultimaActualizacion(new Date())
+                .ultimaActualizacion(new LocalDateTime())
                 .build();
 
         // Añadir la categoría a la película
@@ -162,7 +165,7 @@ class VideoclubApplicationTests {
                 .replacementCost(BigDecimal.valueOf(7.99))
                 .clasificacion("PG")
                 .caracteristicasEspeciales("Comedia")
-                .ultimaActualizacion(new Date())
+                .ultimaActualizacion(new LocalDateTime())
                 .build();
 
         // Añadir la categoría a la película
@@ -320,6 +323,5 @@ class VideoclubApplicationTests {
         assertTrue(categorias.stream().anyMatch(c -> c.getNombre().equals("Acción")));
         assertTrue(categorias.stream().anyMatch(c -> c.getNombre().equals("Comedia")));
     }
-
 }
 

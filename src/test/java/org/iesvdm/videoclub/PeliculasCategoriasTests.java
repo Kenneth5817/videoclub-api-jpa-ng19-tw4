@@ -1,91 +1,325 @@
 package org.iesvdm.videoclub;
 
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
 import org.iesvdm.videoclub.domain.Categoria;
 import org.iesvdm.videoclub.domain.Idioma;
 import org.iesvdm.videoclub.domain.Pelicula;
 import org.iesvdm.videoclub.repository.CategoriaRepository;
 import org.iesvdm.videoclub.repository.IdiomaRepository;
 import org.iesvdm.videoclub.repository.PeliculaRepository;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.transaction.PlatformTransactionManager;
-import org.springframework.transaction.support.TransactionTemplate;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import java.math.BigDecimal;
+import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class )
 @SpringBootTest
-class PeliculasCategoriasApplicationTests {
+class VideoclubApplicationTests {
 
     @Autowired
     PeliculaRepository peliculaRepository;
-    @PersistenceContext
-    EntityManager entityManager;
 
     @Autowired
-    private PlatformTransactionManager transactionManager;
-    private TransactionTemplate transactionTemplate;
-    @Autowired
-    private CategoriaRepository categoriaRepository;
+    CategoriaRepository categoriaRepository;
 
     @Autowired
-    private IdiomaRepository idiomaRepository;
-
-    @BeforeEach
-    public void setUp() {
-        transactionTemplate = new TransactionTemplate(transactionManager);
-    }
-
-
-    @Test
-    void peliculaCategoriasTest(){
-        Categoria categoria=Categoria.builder().nombre("Accion").build();
-        this.categoriaRepository.save(categoria);
-
-/**
-        Pelicula pelicula=Pelicula.builder()
-                .titulo("Pelicula 1"),
-                .idioma("iif"),
-                .build();
-    }
-    @Test
-    @Order(1)
-    void grabarMultiplesPeliculasCategoriasIdioma() {
-
-        Idioma idioma1 = new Idioma(0, "español", new HashSet<>());
-        idiomaRepository.save(idioma1);
-
-        Categoria categoria1 = new Categoria(0, "Categoria1", idioma1);
-        idioma1.getCategorias().add(categoria1);
-        categoriaRepository.save(categoria1);
-
-        Categoria categoria2 = new Categoria(0, "Categoria2", idioma1);
-        idioma1.getCategorias().add(categoria2);
-        categoriaRepository.save(categoria2);
-
-        Idioma idioma2 = new Idioma(0, "inglés", new HashSet<>());
-        idiomaRepository.save(idioma2);
-
-        Categoria categoria3 = new Categoria(0, "Categoria3", idioma2);
-        idioma2.getCategorias().add(categoria3);
-        categoriaRepository.save(categoria3);
-    }
-
-    @Test
-    @Order(2)
-    void actualizarIdiomaPeliculaNull() {
-
-        Categoria categoria1 = categoriaRepository.findById(1L).orElse(null);
-        pelicula1.setIdioma(null);
-        peliculaRepository.save(pelicula1);
-
-    }
+    IdiomaRepository idiomaRepository;
 
     @Test
     void contextLoads() {
+        // Corregido el uso de findById. El método findById devuelve un Optional, por lo que debes usar orElse().
+        Categoria categoria = this.categoriaRepository.findById(3L).orElse(null);
+
+        // Corregido el uso de builder para Idioma
+        Idioma idioma = Idioma.builder().id(4L).build();
+
+        // Corregido el uso de HashSet para las categorías
+        Pelicula pelicula = Pelicula.builder()
+                .titulo("Misión Imposible")
+                .descripcion("Fantasmada de acción")
+                .idioma(idioma)
+                .categorias(new HashSet<>()) // Crear un conjunto vacío para las categorías
+                .build();
+
+        // Añadir la categoría a la película
+        if (categoria != null) {
+            pelicula.getCategorias().add(categoria);
+        }
+
+        peliculaRepository.save(pelicula);
+    }
+    @Test
+    void testAddPelicula() {
+        // Crear una categoría
+        Categoria categoria = new Categoria();
+        categoria.setNombre("Acción");
+        categoria.setUltimaActualizacion(new Date());
+        categoriaRepository.save(categoria);
+
+        // Crear un idioma
+        Idioma idioma = Idioma.builder()
+                .nombre("Español")
+                .ultimaActualizacion(new Date())
+                .build();
+        idiomaRepository.save(idioma);
+
+        // Crear la película
+        Pelicula pelicula = Pelicula.builder()
+                .titulo("Misión Imposible")
+                .descripcion("Película de acción")
+                .anyoLanzamiento(new Date())
+                .idioma(idioma)
+                .duracionAlquiler(7)
+                .rentalRate(BigDecimal.valueOf(2.99))
+                .replacementCost(BigDecimal.valueOf(9.99))
+                .clasificacion("PG-13")
+                .caracteristicasEspeciales("Ninguna")
+                .ultimaActualizacion(new Date())
+                .build();
+
+        // Añadir la categoría a la película
+        pelicula.getCategorias().add(categoria);
+
+        // Guardar la película
+        peliculaRepository.save(pelicula);
+
+        // Verificar que la película ha sido guardada
+        Pelicula savedPelicula = peliculaRepository.findById(pelicula.getIdPelicula()).orElse(null);
+        assertNotNull(savedPelicula);
+        assertEquals("Misión Imposible", savedPelicula.getTitulo());
+        assertTrue(savedPelicula.getCategorias().contains(categoria));
+    }
+    @Test
+    void testDeletePelicula() {
+        // Crear y guardar una película
+        Categoria categoria = new Categoria();
+        categoria.setNombre("Acción");
+        categoria.setUltimaActualizacion(new Date());
+        categoriaRepository.save(categoria);
+
+        Idioma idioma = Idioma.builder()
+                .nombre("Español")
+                .ultimaActualizacion(new Date())
+                .build();
+        idiomaRepository.save(idioma);
+
+        Pelicula pelicula = Pelicula.builder()
+                .titulo("Misión Imposible")
+                .descripcion("Película de acción")
+                .anyoLanzamiento(new Date())
+                .idioma(idioma)
+                .duracionAlquiler(7)
+                .rentalRate(BigDecimal.valueOf(2.99))
+                .replacementCost(BigDecimal.valueOf(9.99))
+                .clasificacion("PG-13")
+                .caracteristicasEspeciales("Ninguna")
+                .ultimaActualizacion(new Date())
+                .build();
+
+        // Añadir la categoría a la película
+        pelicula.getCategorias().add(categoria);
+        peliculaRepository.save(pelicula);
+
+        // Eliminar la película
+        peliculaRepository.delete(pelicula);
+
+        // Verificar que la película ha sido eliminada
+        Pelicula deletedPelicula = peliculaRepository.findById(pelicula.getIdPelicula()).orElse(null);
+        assertNull(deletedPelicula);
+    }
+
+    @Test
+    void testUpdatePelicula() {
+        // Crear una categoría
+        Categoria categoria = new Categoria();
+        categoria.setNombre("Comedia");
+        categoria.setUltimaActualizacion(new Date());
+        categoriaRepository.save(categoria);
+
+        // Crear un idioma
+        Idioma idioma = Idioma.builder()
+                .nombre("Inglés")
+                .ultimaActualizacion(new Date())
+                .build();
+        idiomaRepository.save(idioma);
+
+        // Crear la película
+        Pelicula pelicula = Pelicula.builder()
+                .titulo("La gran comedia")
+                .descripcion("Película divertida")
+                .anyoLanzamiento(new Date())
+                .idioma(idioma)
+                .duracionAlquiler(5)
+                .rentalRate(BigDecimal.valueOf(1.99))
+                .replacementCost(BigDecimal.valueOf(7.99))
+                .clasificacion("PG")
+                .caracteristicasEspeciales("Comedia")
+                .ultimaActualizacion(new Date())
+                .build();
+
+        // Añadir la categoría a la película
+        pelicula.getCategorias().add(categoria);
+        peliculaRepository.save(pelicula);
+
+        // Actualizar la película
+        pelicula.setTitulo("La gran comedia 2");
+        pelicula.setDescripcion("Secuela divertida");
+        peliculaRepository.save(pelicula);
+
+        // Verificar la actualización
+        Pelicula updatedPelicula = peliculaRepository.findById(pelicula.getIdPelicula()).orElse(null);
+        assertNotNull(updatedPelicula);
+        assertEquals("La gran comedia 2", updatedPelicula.getTitulo());
+        assertEquals("Secuela divertida", updatedPelicula.getDescripcion());
+    }
+    @Test
+    void testAddAndRemoveCategoria() {
+        // Crear una categoría
+        Categoria categoria = new Categoria();
+        categoria.setNombre("Drama");
+        categoria.setUltimaActualizacion(new Date());
+        categoriaRepository.save(categoria);
+
+        // Crear una película
+        Idioma idioma = Idioma.builder()
+                .nombre("Francés")
+                .ultimaActualizacion(new Date())
+                .build();
+        idiomaRepository.save(idioma);
+
+        Pelicula pelicula = Pelicula.builder()
+                .titulo("El drama de la vida")
+                .descripcion("Película dramática")
+                .anyoLanzamiento(new Date())
+                .idioma(idioma)
+                .duracionAlquiler(7)
+                .rentalRate(BigDecimal.valueOf(3.99))
+                .replacementCost(BigDecimal.valueOf(10.99))
+                .clasificacion("R")
+                .caracteristicasEspeciales("Emocional")
+                .ultimaActualizacion(new Date())
+                .build();
+
+        peliculaRepository.save(pelicula);
+
+        // Añadir la categoría a la película
+        pelicula.getCategorias().add(categoria);
+        peliculaRepository.save(pelicula);
+
+        // Verificar que la categoría ha sido añadida
+        Pelicula savedPelicula = peliculaRepository.findById(pelicula.getIdPelicula()).orElse(null);
+        assertNotNull(savedPelicula);
+        assertTrue(savedPelicula.getCategorias().contains(categoria));
+
+        // Eliminar la categoría
+        pelicula.getCategorias().remove(categoria);
+        peliculaRepository.save(pelicula);
+
+        // Verificar que la categoría ha sido eliminada
+        Pelicula updatedPelicula = peliculaRepository.findById(pelicula.getIdPelicula()).orElse(null);
+        assertNotNull(updatedPelicula);
+        assertFalse(updatedPelicula.getCategorias().contains(categoria));
+    }
+    @Test
+    void testFindByTitle() {
+        // Crear e insertar una película
+        Idioma idioma = Idioma.builder().nombre("Inglés").ultimaActualizacion(new Date()).build();
+        idiomaRepository.save(idioma);
+
+        Categoria categoria = new Categoria();
+        categoria.setNombre("Ciencia Ficción");
+        categoria.setUltimaActualizacion(new Date());
+        categoriaRepository.save(categoria);
+
+        Pelicula pelicula = Pelicula.builder()
+                .titulo("Star Wars")
+                .descripcion("Ciencia Ficción épica")
+                .idioma(idioma)
+                .categorias(new HashSet<>())
+                .build();
+        pelicula.getCategorias().add(categoria);
+        peliculaRepository.save(pelicula);
+
+        // Buscar la película por título
+        Pelicula foundPelicula = peliculaRepository.findByTitulo("Star Wars");
+        assertNotNull(foundPelicula);
+        assertEquals("Star Wars", foundPelicula.getTitulo());
+    }
+
+    @Test
+    void testCrearCategoria() {
+        // Crear una nueva categoría
+        Categoria categoria = Categoria.builder()
+                .nombre("Acción")
+                .build();
+
+        // Guardar la categoría
+        Categoria categoriaGuardada = categoriaRepository.save(categoria);
+
+        // Verificar que se ha guardado correctamente
+        assertNotNull(categoriaGuardada.getId());
+        assertEquals("Acción", categoriaGuardada.getNombre());
+    }
+
+
+    @Test
+    void testActualizarCategoria() {
+        // Crear una nueva categoría y guardarla
+        Categoria categoria = Categoria.builder()
+                .nombre("Acción")
+                .build();
+        Categoria categoriaGuardada = categoriaRepository.save(categoria);
+
+        // Actualizar el nombre de la categoría
+        categoriaGuardada.setNombre("Aventura");
+        Categoria categoriaActualizada = categoriaRepository.save(categoriaGuardada);
+
+        // Verificar que la categoría se ha actualizado correctamente
+        assertEquals("Aventura", categoriaActualizada.getNombre());
+    }
+    @Test
+    void testEliminarCategoria() {
+        // Crear una nueva categoría y guardarla
+        Categoria categoria = Categoria.builder()
+                .nombre("Acción")
+                .build();
+        Categoria categoriaGuardada = categoriaRepository.save(categoria);
+
+        // Obtener el ID de la categoría guardada
+        Long categoriaId = categoriaGuardada.getId();
+
+        // Eliminar la categoría
+        categoriaRepository.delete(categoriaGuardada);
+
+        // Verificar que la categoría ha sido eliminada
+        assertFalse(categoriaRepository.findById(categoriaId).isPresent());
+    }
+
+
+    @Test
+    void testListarCategorias() {
+        // Crear algunas categorías
+        Categoria categoria1 = Categoria.builder().nombre("Acción").build();
+        Categoria categoria2 = Categoria.builder().nombre("Comedia").build();
+        categoriaRepository.save(categoria1);
+        categoriaRepository.save(categoria2);
+
+        // Obtener la lista de categorías
+        List<Categoria> categorias = categoriaRepository.findAll();
+
+        // Verificar que se han guardado las categorías
+        assertTrue(categorias.size() >= 2);
+        assertTrue(categorias.stream().anyMatch(c -> c.getNombre().equals("Acción")));
+        assertTrue(categorias.stream().anyMatch(c -> c.getNombre().equals("Comedia")));
     }
 
 }
+

@@ -14,6 +14,7 @@ import org.springframework.data.annotation.Id;
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
 public class PeliculaCategoria {
+    @jakarta.persistence.Id
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @EqualsAndHashCode.Include
@@ -24,4 +25,6 @@ public class PeliculaCategoria {
     //AL ponerlo se rompe el bucle
     @ToString.Exclude
     private Pelicula pelicula;
+
+
 }

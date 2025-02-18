@@ -5,12 +5,10 @@ import org.iesvdm.videoclub.domain.Idioma;
 import org.iesvdm.videoclub.domain.Pelicula;
 import org.iesvdm.videoclub.repository.CategoriaRepository;
 import org.iesvdm.videoclub.repository.IdiomaRepository;
-import org.iesvdm.videoclub.repository.PeliculaCategoriaRepository;
 import org.iesvdm.videoclub.repository.PeliculaRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.core.annotation.Order;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -85,7 +83,7 @@ class VideoclubApplicationTests {
                 .replacementCost(BigDecimal.valueOf(9.99))
                 .clasificacion("PG-13")
                 .caracteristicasEspeciales("Ninguna")
-                .ultimaActualizacion(new LocalDateOf())
+                .ultimaActualizacion(LocalDateTime.now())
                 .build();
 
         // Añadir la categoría a la película
@@ -124,7 +122,7 @@ class VideoclubApplicationTests {
                 .replacementCost(BigDecimal.valueOf(9.99))
                 .clasificacion("PG-13")
                 .caracteristicasEspeciales("Ninguna")
-                .ultimaActualizacion(new LocalDateTime())
+                .ultimaActualizacion(LocalDateTime.now())
                 .build();
 
         // Añadir la categoría a la película
@@ -165,7 +163,7 @@ class VideoclubApplicationTests {
                 .replacementCost(BigDecimal.valueOf(7.99))
                 .clasificacion("PG")
                 .caracteristicasEspeciales("Comedia")
-                .ultimaActualizacion(new LocalDateTime())
+                .ultimaActualizacion(LocalDateTime.now())
                 .build();
 
         // Añadir la categoría a la película
@@ -208,7 +206,7 @@ class VideoclubApplicationTests {
                 .replacementCost(BigDecimal.valueOf(10.99))
                 .clasificacion("R")
                 .caracteristicasEspeciales("Emocional")
-                .ultimaActualizacion(new Date())
+                .ultimaActualizacion(LocalDateTime.now())
                 .build();
 
         peliculaRepository.save(pelicula);

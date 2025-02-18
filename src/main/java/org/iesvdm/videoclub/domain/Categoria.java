@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.NaturalId;
 
 import java.util.Date;
 import java.util.HashSet;
@@ -15,6 +16,7 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@EqualsAndHashCode(of = "nombre")
 public class Categoria {
 
     @Id
@@ -23,6 +25,7 @@ public class Categoria {
     private long id;
 
     @Column(length = 30, nullable = false)
+    @NaturalId
     private String nombre;
 
     @ManyToMany(

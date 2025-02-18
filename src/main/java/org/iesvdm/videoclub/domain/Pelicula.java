@@ -21,6 +21,8 @@ import java.util.Set;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString
+@EqualsAndHashCode(of = "idPelicula")
 public class Pelicula {
 
     @Id
